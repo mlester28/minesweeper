@@ -85,17 +85,13 @@ public class Minesweeper
     public void render(int i, int j) { 
 	if (matrix[i][j]){
 	    board[i][j].setOpaque(true);
-	    board[i][j].setBorderPainted(true);
 	    board[i][j].setBackground(Color.BLUE);
-	    board[i][j].setMargin(new Insets(0,0,0,0));
 	    board[i][j].setText("*");
 	    board[i][j].setBorder(null);
 	}
 	else{
 	    board[i][j].setOpaque(true);
-	    board[i][j].setBorderPainted(true);
 	    board[i][j].setBackground(Color.WHITE);
-	    board[i][j].setMargin(new Insets(0,0,0,0));
 	    board[i][j].setText(Integer.toString(neighborCounter(i,j)));
 	    board[i][j].setBorder(null);	    
 	}
