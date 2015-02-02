@@ -100,7 +100,8 @@ public class Minesweeper
 	    
 	}
 	else{
-	    
+	    board[i][j].setOpaque(true);
+	    board[i][j].setBorderPainted(true);
 	    board[i][j].setBackground(Color.WHITE);
 	    board[i][j].setMargin(new Insets(0,0,0,0));
 	    board[i][j].setBorder(null);
