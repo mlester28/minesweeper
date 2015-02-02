@@ -111,8 +111,7 @@ public class Minesweeper
 
     }
 
-    //not working fully
-    //wont go far enough
+//zero fill in method
 
     public void renderNeighbors(int i, int j) {
 	int x,y;
