@@ -1,4 +1,4 @@
-//mlester: this is the minesweeper
+//mlester: this is the minesweeper game
 //Feb 2, 2015
 
 import java.util.Random;
