@@ -1,4 +1,4 @@
-//mlester: this is the minesweeper game
+//mlester: this is the minesweeper
 //Feb 2, 2015
 
 import java.util.Random;
@@ -16,27 +16,32 @@ public class Minesweeper
     private boolean[][] matrix;
     private JButton[][] board;
     private JPanel panel;
+    private int minecounter;
+    private int dim;
 
     //default constructor
     public Minesweeper(){
+	dim = 20;
 	panel = new JPanel();
-        panel.setLayout(new GridLayout(40,40,1,1));
+        panel.setLayout(new GridLayout(dim,dim,1,1));
 	panel.setBackground(Color.BLACK);
-	matrix = new boolean[40][40];
+	matrix = new boolean[dim][dim];
 	Random r = new Random();
-	for (int i=0; i<40; i++){
-	    for (int j=0; j<40; j++){
+	minecounter = 0;
+	for (int i=0; i<dim; i++){
+	    for (int j=0; j<dim; j++){
 		if (r.nextInt(10)>7){
 		    matrix[i][j]=true;
+		    minecounter++;
 		}
 		else
 		    matrix[i][j]=false;	
 	    }
 	}
 
-	board = new JButton[40][40];
-	for (int i=0; i<40; i++){
-	    for (int j=0; j<40; j++){
+	board = new JButton[dim][dim];
+	for (int i=0; i<dim; i++){
+	    for (int j=0; j<dim; j++){
 		board[i][j] = new JButton();
 		panel.add(board[i][j]);
 	    }
@@ -46,9 +51,9 @@ public class Minesweeper
     }
 
     //method to help the board wrap around
-    public static int mod(int x, int d){
+    public int mod(int x, int d){
 	if ((x%d) < 0)
-	    return 40+(x%d);
+	    return dim+(x%d);
 	else
 	    return x%d;
     }
@@ -56,21 +61,21 @@ public class Minesweeper
     //method to count neighbors
     public int neighborCounter(int i, int j){
 	int counter = 0;
-	if (matrix[mod(i-1,40)][mod(j-1,40)])
+	if (matrix[mod(i-1,dim)][mod(j-1,dim)])
 	    counter++;
-	if (matrix[mod(i-1,40)][j])
+	if (matrix[mod(i-1,dim)][j])
 	    counter++;
-	if (matrix[mod(i-1,40)][mod(j+1,40)])
+	if (matrix[mod(i-1,dim)][mod(j+1,dim)])
 	    counter++;
-	if (matrix[i][mod(j-1,40)])
+	if (matrix[i][mod(j-1,dim)])
 	    counter++;
-	if (matrix[i][mod(j+1,40)])
+	if (matrix[i][mod(j+1,dim)])
 	    counter++;
-	if (matrix[mod(i+1,40)][mod(j-1,40)])
+	if (matrix[mod(i+1,dim)][mod(j-1,dim)])
 	    counter++;
-	if (matrix[mod(i+1,40)][j])
+	if (matrix[mod(i+1,dim)][j])
 	    counter++;
-	if (matrix[mod(i+1,40)][mod(j+1,40)])
+	if (matrix[mod(i+1,dim)][mod(j+1,dim)])
 	    counter++;
 	return counter;
     }
@@ -79,59 +84,57 @@ public class Minesweeper
       of buttons in board*/
     //why do I have to do everything twice??
     public void render(int i, int j) { 
-		if (matrix[i][j]){
-		    board[i][j].setOpaque(true);
-		    board[i][j].setBorderPainted(true);
-		    board[i][j].setBackground(Color.BLUE);
-		    board[i][j].setMargin(new Insets(0,0,0,0));
-		    board[i][j].setBorder(null);
-		    board[i][j].setText("*");
-		    board[i][j].setOpaque(true);
-		    board[i][j].setBorderPainted(true);
-		    board[i][j].setBackground(Color.BLUE);
-		    board[i][j].setMargin(new Insets(0,0,0,0));
-		    board[i][j].setBorder(null);
-		    board[i][j].setText("*");
-		    
-		}
-		else{
-		    board[i][j].setOpaque(true);
-		    board[i][j].setBorderPainted(true);
-		    board[i][j].setBackground(Color.WHITE);
-		    board[i][j].setMargin(new Insets(0,0,0,0));
-		    board[i][j].setBorder(null);
-		    board[i][j].setText(Integer.toString(neighborCounter(i,j)));
-		    board[i][j].setOpaque(true);
-		    board[i][j].setBorderPainted(true);
-		    board[i][j].setBackground(Color.WHITE);
-		    board[i][j].setMargin(new Insets(0,0,0,0));
-		    board[i][j].setBorder(null);
-		    board[i][j].setText(Integer.toString(neighborCounter(i,j)));
-		}
+	if (matrix[i][j]){
+	    board[i][j].setOpaque(true);
+	    board[i][j].setBorderPainted(true);
+	    board[i][j].setBackground(Color.BLUE);
+	    board[i][j].setMargin(new Insets(0,0,0,0));
+	    board[i][j].setBorder(null);
+	    board[i][j].setText("*");
+	    board[i][j].setOpaque(true);
+	    board[i][j].setBorderPainted(true);
+	    board[i][j].setBackground(Color.BLUE);
+	    board[i][j].setMargin(new Insets(0,0,0,0));
+	    board[i][j].setBorder(null);
+	    board[i][j].setText("*");
+	    
+	}
+	else{
+	    
+	    board[i][j].setBackground(Color.WHITE);
+	    board[i][j].setMargin(new Insets(0,0,0,0));
+	    board[i][j].setBorder(null);
+	    board[i][j].setText(Integer.toString(neighborCounter(i,j)));
+	    board[i][j].setOpaque(true);
+	    board[i][j].setBorderPainted(true);
+	    board[i][j].setBackground(Color.WHITE);
+	    board[i][j].setMargin(new Insets(0,0,0,0));
+	    board[i][j].setBorder(null);
+	    board[i][j].setText(Integer.toString(neighborCounter(i,j)));
+	}
 
     }
 
-//zero fill in method
-
+    //zero flood fill method
     public void renderNeighbors(int i, int j) {
 	int x,y;
 	render(i,j);
 	for (x=-1;x<2;x++){
 	    for (y=-1;y<2;y++){
-		if (neighborCounter(mod(i+x,40),mod(j+y,40)) == 0 && board[mod(i+x,40)][mod(j+y,40)].isOpaque() == false) {
-	    renderNeighbors(mod(i+x,40),mod(j+y,40));
+		if (neighborCounter(mod(i+x,dim),mod(j+y,dim)) == 0 && board[mod(i+x,dim)][mod(j+y,dim)].isOpaque() == false) {
+	    renderNeighbors(mod(i+x,dim),mod(j+y,dim));
 		}
 	    }
 	}
 
-	render(mod(i-1,40),mod(j-1,40));
-	render(mod(i-1,40),j);
-	render(mod(i-1,40),mod(j+1,40));
-	render(i,mod(j-1,40));
-	render(i,mod(j+1,40));
-	render(mod(i+1,40),mod(j-1,40));
-	render(mod(i+1,40),j);
-	render(mod(i+1,40),mod(j+1,40));
+	render(mod(i-1,dim),mod(j-1,dim));
+	render(mod(i-1,dim),j);
+	render(mod(i-1,dim),mod(j+1,dim));
+	render(i,mod(j-1,dim));
+	render(i,mod(j+1,dim));
+	render(mod(i+1,dim),mod(j-1,dim));
+	render(mod(i+1,dim),j);
+	render(mod(i+1,dim),mod(j+1,dim));
 
     }
 
@@ -173,8 +176,8 @@ public class Minesweeper
 	    }
 	}
 
-	for (int i=0; i<40; i++){
-	    for (int j=0; j<40; j++){
+	for (int i=0; i<mm.dim; i++){
+	    for (int j=0; j<mm.dim; j++){
 		mm.board[i][j].addActionListener(new ClickListener(i,j));
 	    }
 	}
@@ -191,4 +194,5 @@ public class Minesweeper
     }
 
 }
+
 
