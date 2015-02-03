@@ -16,7 +16,6 @@ public class Minesweeper
     private boolean[][] matrix;
     private JButton[][] board;
     private JPanel panel;
-    private int minecounter;
     private int dim;
 
     //default constructor
@@ -27,12 +26,10 @@ public class Minesweeper
 	panel.setBackground(Color.BLACK);
 	matrix = new boolean[dim][dim];
 	Random r = new Random();
-	minecounter = 0;
 	for (int i=0; i<dim; i++){
 	    for (int j=0; j<dim; j++){
 		if (r.nextInt(10)>7){
 		    matrix[i][j]=true;
-		    minecounter++;
 		}
 		else
 		    matrix[i][j]=false;	
