@@ -141,8 +141,6 @@ public class Minesweeper
 	    }
 
 
-//need a way to render more squares if click on a square touching 0 mines
-//some kind of loop that keeps rendering adjacent squares until it gets all the adjacent ones that have 0, like in minesweeper
 	    public void actionPerformed(ActionEvent event){
 		mm.render(x,y);
 
