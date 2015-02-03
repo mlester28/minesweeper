@@ -95,7 +95,7 @@ public class Minesweeper
 
     }
 
-    //zero flood fill method
+    //recursive zero flood fill method
     public void renderNeighbors(int i, int j) {
 	int x,y;
 	render(i,j);
