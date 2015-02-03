@@ -131,7 +131,7 @@ public class Minesweeper
 
 	
 	
-	//when clicked the truth value of the cell will switch
+	//when clicked the cell will get rendered
 	class ClickListener implements ActionListener{
 	    int x,y;
 
