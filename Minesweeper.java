@@ -17,10 +17,18 @@ public class Minesweeper
     private JButton[][] board;
     private JPanel panel;
     private int dim;
+    private int squarecounter;
+    private int minecounter;
+    private boolean canwin;
+    private int maxmines;
 
     //default constructor
     public Minesweeper(){
-	dim = 20;
+	squarecounter = 0;
+	minecounter = 0;
+	maxmines = 10;
+	canwin = true;
+	dim = 6;
 	panel = new JPanel();
         panel.setLayout(new GridLayout(dim,dim,1,1));
 	panel.setBackground(Color.BLACK);
@@ -28,8 +36,9 @@ public class Minesweeper
 	Random r = new Random();
 	for (int i=0; i<dim; i++){
 	    for (int j=0; j<dim; j++){
-		if (r.nextInt(10)>7){
+		if (r.nextInt(10)>8 && maxmines>minecounter){
 		    matrix[i][j]=true;
+		    minecounter++;
 		}
 		else
 		    matrix[i][j]=false;	
@@ -80,22 +89,26 @@ public class Minesweeper
     /*method that maps the true/false values of matrix to blue/white state 
       of buttons in board*/
     public void render(int i, int j) { 
-	if (matrix[i][j]){
-	    board[i][j].setOpaque(true);
-	    board[i][j].setBackground(Color.BLUE);
-	    board[i][j].setText("*");
-	    board[i][j].setBorder(null);
-	}
-	else{
-	    board[i][j].setOpaque(true);
-	    board[i][j].setBackground(Color.WHITE);
-	    board[i][j].setText(Integer.toString(neighborCounter(i,j)));
-	    board[i][j].setBorder(null);	    
-	}
+	if (board[i][j].isOpaque() == false){
+	    if (matrix[i][j]){
+		board[i][j].setOpaque(true);
+		board[i][j].setBackground(Color.BLUE);
+		board[i][j].setText("*");
+		board[i][j].setBorder(null);
+		canwin = false;
+	    }
+	    else{
+		board[i][j].setOpaque(true);
+		board[i][j].setBackground(Color.WHITE);
+		board[i][j].setText(Integer.toString(neighborCounter(i,j)));
+		board[i][j].setBorder(null);
+		squarecounter++;
+	    }
 
+	}
     }
 
-    //recursive zero flood fill method
+    //zero flood fill method
     public void renderNeighbors(int i, int j) {
 	int x,y;
 	render(i,j);
@@ -129,8 +142,7 @@ public class Minesweeper
 	youLose.setTitle("YOU LOSE");
 	youLose.setVisible(false);
 
-	
-	
+
 	//when clicked the cell will get rendered
 	class ClickListener implements ActionListener{
 	    int x,y;
@@ -140,11 +152,15 @@ public class Minesweeper
 		y=yval;
 	    }
 
-
 	    public void actionPerformed(ActionEvent event){
 		mm.render(x,y);
 
 		if (mm.matrix[x][y] == true) {
+		    youLose.setVisible(true);
+		}
+
+		else if (mm.squarecounter + mm.minecounter == mm.dim*mm.dim && mm.canwin) {
+		    youLose.setTitle("YOU WIN");
 		    youLose.setVisible(true);
 		}
 		
@@ -153,6 +169,7 @@ public class Minesweeper
 		    }
 	    }
 	}
+
 
 	for (int i=0; i<mm.dim; i++){
 	    for (int j=0; j<mm.dim; j++){
@@ -172,5 +189,4 @@ public class Minesweeper
     }
 
 }
-
 
