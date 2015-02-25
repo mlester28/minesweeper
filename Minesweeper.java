@@ -170,10 +170,32 @@ public class Minesweeper
 	    }
 	}
 
+	class HandleRight implements MouseListener {
+	    int x,y;
 
+	    public HandleRight(int xval, int yval){
+		x=xval;
+		y=yval;
+	    }
+
+	    //when right click, make red x in square
+	    public void mouseClicked(MouseEvent e) {
+		if (SwingUtilities.isRightMouseButton(e) || e.isControlDown()) {
+		    mm.board[x][y].setText("X");
+		    mm.board[x][y].setForeground(Color.RED);
+		}
+	    }
+
+	    public void mousePressed(MouseEvent e){}
+            public void mouseEntered(MouseEvent e){}
+            public void mouseExited(MouseEvent e){}
+            public void mouseReleased(MouseEvent e){}
+	}
+	
 	for (int i=0; i<mm.dim; i++){
 	    for (int j=0; j<mm.dim; j++){
 		mm.board[i][j].addActionListener(new ClickListener(i,j));
+		mm.board[i][j].addMouseListener(new HandleRight(i,j));
 	    }
 	}
 
